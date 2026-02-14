@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #ffe6e6; /* Light pink background */
+    background-color: #fff; /* Plain background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +37,7 @@
     font-size: 20px; /* Increased font size */
     color: #660033; /* Dark pink text */
     margin-bottom: 30px;
-    font-family: 'Segoe Script', cursive; /* Romantic font */
+    font-family: 'Times New Roman', 'Segoe UI', Arial, sans-serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Added text shadow */
   }
 
@@ -48,6 +48,123 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Added shadow */
     margin: 0 auto; /* Center the gif */
     margin-bottom: 30px;
+  }
+
+  .gift-screen {
+    display: block;
+  }
+
+  .main-screen {
+    display: none;
+  }
+
+  .gift-box {
+    width: 300px;
+    height: 240px;
+    margin: 0 auto 25px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ff3399 0%, #e6005c 100%); /* existing colors */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    outline: none;
+    border: 2px solid #ff99cc; /* existing border color */
+    overflow: visible;
+  }
+
+  .gift-box:hover {
+    transform: scale(1.05);
+  }
+
+  .gift-ribbon-vert {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 34px;
+    transform: translateX(-50%);
+    background-color: #ff99cc; /* existing */
+    border-radius: 8px;
+    z-index: 2;
+  }
+
+  .gift-ribbon-horiz {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 34px;
+    transform: translateY(-50%);
+    background-color: #ff99cc; /* existing */
+    border-radius: 8px;
+    z-index: 2;
+  }
+
+  .gift-lid {
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    top: -34px;
+    height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ff3399 0%, #e6005c 100%); /* existing colors */
+    border: 2px solid #ff99cc;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .gift-bow {
+    position: absolute;
+    top: -74px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 72px;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .gift-bow::before,
+  .gift-bow::after {
+    content: '';
+    position: absolute;
+    top: 12px;
+    width: 56px;
+    height: 40px;
+    border: 12px solid #ff99cc;
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .gift-bow::before {
+    left: 6px;
+    transform: rotate(-12deg);
+  }
+
+  .gift-bow::after {
+    right: 6px;
+    transform: rotate(12deg);
+  }
+
+  .gift-knot {
+    position: absolute;
+    left: 50%;
+    top: 28px;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background-color: #ff99cc;
+    border: 2px solid #ff99cc;
+  }
+
+  .gift-label {
+    font-size: 18px;
+    color: #660033; /* existing text color */
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', 'Segoe UI', Arial, sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   img {
@@ -93,29 +210,124 @@
 </head>
 <body>
 <div class="container">
-  <h1>Hey</h1>
-  <p> I was thinking,if you and me... I mean, if you're free on this Valentine's, will you be my Valentine?</p>
-  <div class="gif-container">
-    <img src="https://media3.giphy.com/media/ZP7zODs282XveerKMI/giphy.gif?cid=6c09b952lag8kkpz3k714tmh2wz5mck1sxegjd7mivscmr2e&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Valentine's Day Image">
+  <div id="giftScreen" class="gift-screen">
+    <div class="gift-label">NHẤN VÀO ĐÂY NÒOOO</div>
+    <div class="gift-box" role="button" tabindex="0" onclick="openGift()" onkeydown="if(event.key==='Enter'||event.key===' '){openGift();}">
+      <img src="assets/gift.png" alt="Gift" style="width:100%;height:100%;object-fit:contain;border-radius:12px;">
+    </div>
   </div>
-  <button id="yesButton" onclick="playSong()">Yes, I'd love to!</button>
-  <button id="noButton" onclick="noClicked()">NO!</button>
+
+  <div id="mainScreen" class="main-screen">
+    <h1>HAPPY VALENTINE'S DAY!</h1>
+    <p id="message"> chúc cô gái nhỏ của anh luon xinh đẹp vui vẻ và hạnh phúc nhaaa, mong em sẽ luon nở nụ cười xinh trên môi, gạc bỏ ưu phiền và luôn biết yêu bản than mình nhiều hơn, mong cho mọi điều tốt đẹp nhất sẽ đến với em và tình yêu của tụi mình, chúc cho tụi minh sẽ mãi ở bên nhau.</p>
+    <div class="gif-container">
+      <img
+        id="valentineImage"
+        src="assets/kt1.jpg"
+        alt="Valentine's Day Image"
+        onerror="this.onerror=null;this.src='https://media3.giphy.com/media/ZP7zODs282XveerKMI/giphy.gif?cid=6c09b952lag8kkpz3k714tmh2wz5mck1sxegjd7mivscmr2e&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g';"
+      >
+    </div>
+    <video id="loveVideo" preload="auto" playsinline style="display:none"></video>
+    <audio id="bgAudio" preload="auto" src="assets/song.mp3" style="display:none"></audio>
+    <button id="nextButton" onclick="nextStep()">TIẾP TỤC</button>
+    <button id="backButton" onclick="prevStep()" style="display:none">QUAY LẠI</button>
+  </div>
 </div>
 
 <script>
-  function playSong() {
-    var mp3Url = 'https://github.com/Raw9k-ai/Happy-Valentine-s-day-/raw/main/Video%20by%20jivan_edit%20%5BC2KQghTvZPM%5D.m4a';
-    var audio = new Audio(mp3Url);
-    audio.play();
-    alert("I love you! ❤️");
+  // 0 = kt1, 1 = kt2, 2 = kt3, 3 = kt4, 4 = kt5
+  var stepIndex = 0;
+  var audioPlayer = null;
+  var images = ['assets/kt1.jpg', 'assets/kt2.jpg', 'assets/kt3.jpg', 'assets/kt4.jpg', 'assets/kt5.jpg'];
+  var messages = null;
+  var initialMessage = null;
+
+  // Prime audio download/decoding early to reduce perceived delay.
+  window.addEventListener('DOMContentLoaded', function () {
+    var bgAudio = document.getElementById('bgAudio');
+    if (bgAudio) {
+      bgAudio.load();
+    }
+  });
+
+  function openGift() {
+    document.getElementById('giftScreen').style.display = 'none';
+    document.getElementById('mainScreen').style.display = 'block';
+
+    // Lấy message gốc sau khi mainScreen đã hiện.
+    if (!initialMessage) {
+      initialMessage = document.getElementById('message').textContent;
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      messages = [
+        escapeHtml(initialMessage),
+        'mong rằng hôm nay và cả những ngày sau, em đều cảm nhận được hạnh phúc theo cách riêng của mình.',
+        'anh chúc em luôn được yêu thương, được quan tâm và trân trọng, được sống trong những điều khiến em hạnh phúc, và mong rằng những ngày sau nữa, em luôn có thật nhiều lý do để cười, và luôn cảm nhận được rằng có anh ở bên em.',
+        'cảm ơn em vì đã xuất hiện trong cuộc đời anh, chờ đợi chưa bao giờ làm cho anh thấy thoải mái, nhưng lần này anh hạnh phúc vì đó là em, vì sau tất cả tụi mình vẫn ở bên nhau, nên anh rất là trân trọng lần yêu nàyyyy.',
+        'mong là em sẽ thích món quà này nhaaaaa!<br> ANH YÊU CDANG NHIỀUUUUUUUUUU &#10084;'
+      ];
+    }
+
+    // Reset về ảnh đầu tiên khi mở quà.
+    stepIndex = 0;
+    applyStep();
+
+    // Start loading audio ASAP.
+    var bgAudio = document.getElementById('bgAudio');
+    if (bgAudio) bgAudio.load();
+
+    playSong();
   }
 
-  function noClicked() {
-    alert("Think again.");
-    document.getElementById('noButton').classList.add('shake');
-    setTimeout(function() {
-      document.getElementById('noButton').classList.remove('shake');
-    }, 500);
+  function applyStep() {
+    document.getElementById('valentineImage').src = images[stepIndex];
+    document.getElementById('message').innerHTML = messages[stepIndex];
+    document.getElementById('backButton').style.display = stepIndex === 0 ? 'none' : 'inline-block';
+  }
+
+  function playSong() {
+    var videoUrl = 'assets/valentine.mp4';
+
+    if (audioPlayer) return;
+
+    // Use the preloaded <audio> element for faster start.
+    audioPlayer = document.getElementById('bgAudio') || new Audio('assets/song.mp3');
+
+    // Ensure it starts promptly on the first user gesture.
+    try { audioPlayer.currentTime = 0; } catch (e) {}
+
+    audioPlayer.play().catch(function () {
+      var audioFromVideo = new Audio(videoUrl);
+      audioFromVideo.play().catch(function () {
+        var video = document.getElementById('loveVideo');
+        video.src = videoUrl;
+        video.currentTime = 0;
+        video.play();
+      });
+    });
+  }
+
+  function nextStep() {
+    playSong();
+
+    if (stepIndex >= images.length - 1) return;
+    stepIndex += 1;
+    applyStep();
+  }
+
+  function prevStep() {
+    if (stepIndex <= 0) return;
+    stepIndex -= 1;
+    applyStep();
   }
 </script>
 </body>
