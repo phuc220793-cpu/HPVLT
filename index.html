@@ -50,6 +50,15 @@
     margin-bottom: 30px;
   }
 
+  #valentineImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    transition: opacity 220ms ease;
+    will-change: opacity;
+  }
+
   .gift-screen {
     display: block;
   }
@@ -225,6 +234,8 @@
         id="valentineImage"
         src="assets/kt1.jpg"
         alt="Valentine's Day Image"
+        decoding="async"
+        loading="eager"
         onerror="this.onerror=null;this.src='https://media3.giphy.com/media/ZP7zODs282XveerKMI/giphy.gif?cid=6c09b952lag8kkpz3k714tmh2wz5mck1sxegjd7mivscmr2e&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g';"
       >
     </div>
@@ -242,6 +253,50 @@
   var images = ['assets/kt1.jpg', 'assets/kt2.jpg', 'assets/kt3.jpg', 'assets/kt4.jpg', 'assets/kt5.jpg'];
   var messages = null;
   var initialMessage = null;
+
+  var imagePreloadCache = Object.create(null);
+
+  function preloadImage(src) {
+    if (imagePreloadCache[src]) return imagePreloadCache[src];
+    imagePreloadCache[src] = new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () { resolve(true); };
+      img.onerror = function () { resolve(false); };
+      img.src = src;
+    });
+    return imagePreloadCache[src];
+  }
+
+  function preloadAllImages() {
+    images.forEach(function (src) { preloadImage(src); });
+  }
+
+  function setImageSmooth(imgEl, nextSrc) {
+    if (!imgEl || !nextSrc) return;
+    if (imgEl.getAttribute('src') === nextSrc) return;
+
+    // Keep current image visible until the next one is ready.
+    preloadImage(nextSrc).then(function () {
+      imgEl.style.opacity = '0';
+      // Swap on the next frame so the opacity change takes effect.
+      requestAnimationFrame(function () {
+        imgEl.src = nextSrc;
+
+        var done = function () {
+          imgEl.style.opacity = '1';
+        };
+
+        // Prefer decode() for smoother paint when supported.
+        if (imgEl.decode) {
+          imgEl.decode().then(done).catch(done);
+        } else {
+          // Fallback: wait for load event.
+          if (imgEl.complete) done();
+          else imgEl.onload = done;
+        }
+      });
+    });
+  }
 
   // Prime audio download/decoding early to reduce perceived delay.
   window.addEventListener('DOMContentLoaded', function () {
@@ -279,6 +334,7 @@
 
     // Reset về ảnh đầu tiên khi mở quà.
     stepIndex = 0;
+    preloadAllImages();
     applyStep();
 
     // Start loading audio ASAP.
@@ -289,7 +345,7 @@
   }
 
   function applyStep() {
-    document.getElementById('valentineImage').src = images[stepIndex];
+    setImageSmooth(document.getElementById('valentineImage'), images[stepIndex]);
     document.getElementById('message').innerHTML = messages[stepIndex];
     document.getElementById('backButton').style.display = stepIndex === 0 ? 'none' : 'inline-block';
   }
